@@ -15,7 +15,7 @@ const MARGIN = {
 
 // initialise csv
 const csv = d3.csv(
-  "https://raw.githubusercontent.com/SoutarM95/F20DV_Coursework2/main/data/world_population.csv?token=GHSAT0AAAAAAB55H2DWZUIPQJ4HXB5A23PKZBWTAVA"
+  ""
 );
 
 // temp storage array
@@ -39,7 +39,7 @@ var svg = d3
 d3.select(".linechart")
   .append("h1")
   .text("Graph Navigator")
-  .classed("text-white pl-10", true);
+  .classed("Header", true);
 
 // append navigator chart to html
 var mini = d3
