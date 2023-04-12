@@ -15,8 +15,7 @@ const MARGIN = {
 
 // initialise csv
 const csv = d3.csv(
-  ""
-);
+  "https://raw.githubusercontent.com/SoutarM95/F20DV_Coursework2/main/data/population-and-demography.csv?token=GHSAT0AAAAAAB55H2DWQGQTUK47SOI5EBFOZBWWNZA");
 
 // temp storage array
 var pops = [];
@@ -28,7 +27,7 @@ var line, line2;
 
 // append line chart svg to html
 var svg = d3
-  .select(".linechart")
+  .select(".Line-Chart")
   .append("svg")
   .attr("width", WIDTH + MARGIN.left + MARGIN.right)
   .attr("height", HEIGHT + MARGIN.top + MARGIN.bottom)
@@ -36,14 +35,14 @@ var svg = d3
   .attr("transform", "translate(" + MARGIN.left + "," + MARGIN.top + ")");
 
 // add label text for line chart
-d3.select(".linechart")
+d3.select(".Line-Chart")
   .append("h1")
   .text("Graph Navigator")
   .classed("Header", true);
 
 // append navigator chart to html
 var mini = d3
-  .select(".linechart")
+  .select(".Line-Chart")
   .append("svg")
   .attr("width", MINIWIDTH + MARGIN.left + MARGIN.right)
   .attr("height", MINIHEIGHT + MARGIN.top + MARGIN.bottom)
@@ -368,7 +367,7 @@ const CREATEINDICATOR = (country) => {
   });
 
   // add a reset button which resets domains of charts
-  d3.select(".linechart")
+  d3.select(".Line-Chart")
     .append("button")
     .text("reset")
     .classed("ml-3 bg-gray-900 text-white p-2 w-20", true)
