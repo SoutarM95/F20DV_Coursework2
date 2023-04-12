@@ -1,47 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title> DashBoardCourseWork</title>
-  <head>
-    <!-- import d3.js version 7 & Topojson-->
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="https://d3js.org/topojson.v1.min.js"></script>
-    <!-- Import the style sheet-->
-    <link href="./css/style.css" rel="stylesheet" type="text/css" />
+<html>
+<head>
+	<title>DashBoardCourseWork</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+      <!-- import d3.js version 7 & Topojson-->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://d3js.org/topojson.v1.min.js"></script>
+  <!-- Import the style sheet-->
+  <link href="./css/style.css" rel="stylesheet" type="text/css" />
+</head>
 
-  </head>
+<body>
+  <div class="wrapper container">
+    <div class="linechart">
+      <h1 class ="Header">World Population Increase</h1>
+    </div>
+  </div>
+</body>
 
-  <body>
-    <nav><h1>World-Population Relating to World Happiness</h1><nav>
+<script src="./js/LineChart#2">
 
-      <div id="LineChart" class="LineGrowth">
-        <h2> Population Growth</h2>
-      </div>
-
-      <div id="WorldMap" class="MapGrowth">
-        <h2> World Map</h2>
-      </div>
-
-      <div id="BarChart" class="BarGrowth">
-        <h2>Bar Chart</h2>
-      </div>
-      
-      <div id="PieChart" class="PieGrowth">
-        <h2>Bar Chart</h2>
-      </div>   
-      
-    </nav>
-
-    <script src="./js/BarChart.js"></script>
-    <script src="./js/WorldMap.js"></script>
-    <script src="./js/PieChart.js"></script>
-    <script src="./js/LineChart.js"></script>
+</script>
 
 
-      
-  </body>  
-  
-
-  </script>
 </html>
