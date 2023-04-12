@@ -155,12 +155,16 @@ const MakeLineChart = (Country, arr, svg) => {
 
 
 const MakeTheSelector = (Country) => {
+  // Call csv.then() method which returns a promise that resolves when the CSV file has been loaded and parsed
   csv.then((value) => {
+    // Iterate through the CSV data
     for (var i = 0; i < value.length; i++) {
+      // If the Country property of the current data object matches the input Country parameter, push it into the Increase array
       if (value[i].Country === Country) {
         Increase.push(value[i]);
-      }}
-
+      }
+    }
+    // Define a brush for the navigator chart using d3
     var brush = d3
       .brushX()
       .extent([
@@ -168,16 +172,19 @@ const MakeTheSelector = (Country) => {
         [SECONDWIDTH, SECONDHEIGHT - MARGIN.bottom],
       ]).on("end", brushed);
 
+
+    // Convert the Year property of each data object in the Increase array into a Date object and cast the Population property as a number
     Increase.forEach(function (d) {
       d.Year = new Date(d.Year);
       d.Population = +d.Population;
     });
 
+    // Sort the data objects in the Increase array in descending order by their Year property
     Increase.sort(function (a, b) {
       return new Date(b.Year) - new Date(a.Year);
     });
 
-
+    // Define scales for the navigator chart using d3
     secX
       .domain(
         d3.extent(Increase, function (d) {
@@ -192,6 +199,7 @@ const MakeTheSelector = (Country) => {
         }),
       ]).range([SECONDHEIGHT - MARGIN.bottom, MARGIN.top]);
 
+    // Define a line generator for the navigator chart using d3
     var LineValue = d3
       .line()
       .x(function (d) {
@@ -201,7 +209,11 @@ const MakeTheSelector = (Country) => {
         return secY(d.Population);
       });
 
-    line2 = sec
+      // Create a group element for the navigator chart and add a clip path to it
+      // Append a path element to the group element and bind the data in the Increase array to it
+      // Set the class of the path element to "line" and "lineOrange"
+      // Set the "d" attribute of the path element to the result of LineValue(Increase)
+      line2 = sec
       .append("g")
       .attr("clip-path", "url(#clip)")
       .append("path")
@@ -211,42 +223,52 @@ const MakeTheSelector = (Country) => {
       .attr("class", "lineOrange");
 
 
+     // Append a brush element to the line chart and the navigator chart
     line2.append("g").attr("class", "brush").call(brush);
     sec.append("g").attr("class", "brush").call(brush);
 
-    function brushed(event) {
-      const selection = event.selection;
 
-      if (!selection) {
-        d3.extent(Increase, function (d) {
-          return d.Year;
-        });
-      } else {
-        x.domain([x.invert(selection[0]), x.invert(selection[1])]);
- 
-        sec.select(".brush").call(brush.move, null);
-      }
+    // Define a function called brushed that takes an event object as a parameter
+ // This function is called when the user interacts with the brush selector on the line chart.
+function brushed(event) {
+  // Get the current selection of the brush
+  const selection = event.selection;
 
-      svg
-        .selectAll("#xAxis")
-        .transition()
-        .duration(800)
-        .call(d3.axisBottom(x));
+  // If there is no selection, reset the x domain to show all data.
+  if (!selection) {
+    d3.extent(Increase, function (d) {
+      return d.Year;
+    });
+  } else {
+    // Otherwise, update the x domain to match the brush selection.
+    x.domain([x.invert(selection[0]), x.invert(selection[1])]);
+    
+    // Reset the brush selection.
+    sec.select(".brush").call(brush.move, null);
+  }
 
-      line
-        .transition()
-        .duration(800)
-        .attr(
-          "d",d3
-            .line()
-            .x(function (d) {
-              return x(d.Year);
-            })
-            .y(function (d) {
-              return y(d.Population);
-            })
-        );
-    }
+  // Update the x-axis with the new domain.
+  svg
+    .selectAll("#xAxis")
+    .transition()
+    .duration(800)
+    .call(d3.axisBottom(x));
+
+  // Update the line chart with the new x domain.
+  line
+    .transition()
+    .duration(800)
+    .attr(
+      "d",d3
+        .line()
+        .x(function (d) {
+          return x(d.Year);
+        })
+        .y(function (d) {
+          return y(d.Population);
+        })
+    );
+}
 
     sec
       .append("g")
