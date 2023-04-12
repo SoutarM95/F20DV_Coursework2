@@ -1,42 +1,58 @@
-/* CSS for responsive layout */
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
 * {
-	box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
 }
 
-.row::after {
-	content: "";
-	clear: both;
-	display: table;
+axisWhite line {
+    stroke-opacity: 0.5;
 }
 
-.column {
-	float: left;
-	width: 100%;
-	padding: 15px;
+.axisWhite path {
+    stroke-opacity: 0.5;
 }
 
-@media only screen and (min-width: 600px) {
-	.column {
-		width: 50%;
-	}
+.axisWhite text {
+    fill: white;
 }
 
-@media only screen and (min-width: 900px) {
-	.column {
-		width: 33.33%;
-	}
+.lineBlue {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 2px;
 }
 
-/* CSS for chart divs */
-.chart {
-	height: 300px;
-	border: 1px solid black;
-	margin-bottom: 30px;
-	text-align: center;
+.linePink {
+    fill: none;
+    stroke: magenta;
+    stroke-width: 2px;
 }
 
-/* CSS for chart titles */
-.chart-title {
-	font-size: 1.5em;
-	margin-bottom: 10px;
+#xAxis .tick line {
+    visibility: hidden;
+}
+
+
+.selected {
+    fill: #B122B7 !important;
+}
+
+.swatch {
+    fill-opacity: .30;
+}
+
+.wrapper, nav {
+    background-color: #0F111E;
+}
+
+.white {
+    background-color: #0F111E;
+}
+
+.gradient {
+    background-color: linear-gradient(to bottom right, #2E84C6, #B122B7);
+}
+
+.label, .legendTitle {
+    fill: white;
 }
