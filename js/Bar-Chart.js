@@ -16,7 +16,7 @@ const chart = svg.append("g")
   .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
 // Load data from the CSV file
-d3.csv("https://raw.githubusercontent.com/SoutarM95/F20DV_Coursework2/main/data/world_population.csv")
+d3.csv("https://raw.githubusercontent.com/SoutarM95/F20DV_Coursework2/main/data/population-and-demography-FullData.csv")
   .then(function(data) {
 
     // Convert the data strings to numbers

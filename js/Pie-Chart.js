@@ -8,7 +8,7 @@ const svg = d3.select("#chart-container svg")
   .attr("height", Pieheight);
 
 // Load the data from the CSV file
-d3.csv("https://raw.githubusercontent.com/SoutarM95/F20DV_Coursework2/main/data/world_population.csv").then(data => {
+d3.csv("https://raw.githubusercontent.com/SoutarM95/F20DV_Coursework2/main/data/population-and-demography-FullData.csv").then(data => {
 
   // Convert the population data to numbers
   data.forEach(d => {
