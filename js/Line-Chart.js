@@ -1,29 +1,40 @@
+// Define some constants for the size of the chart and margins
 const WIDTH = 800;
 const HEIGHT = 500;
-const MINIWIDTH = 800;
-const MINIHEIGHT = 300;
 
+const SECONDWIDTH = 800;
+const SECONDHEIGHT = 300;
 
 const MARGIN = {
-  top: 10,
-  right: 10,
-  bottom: 10,
-  left: 10,
+  top: 40,
+  right: 30,
+  bottom: 40,
+  left: 100,
 };
 
+const SECOND_MARGIN = {
+  top: 40,
+  right: 40,
+  bottom: 40,
+  left: 400,
+};
 
+// Load the CSV data from a URL using D3's csv function
 const csv = d3.csv(
   "https://raw.githubusercontent.com/SoutarM95/F20DV_Coursework2/main/data/population-and-demography-FullData.csv"
-  );
+);
 
-
+// Create an empty array to store the data for the selected country
 var Increase = [];
 
+// Create scales for the x and y axes
 var x = d3.scaleTime().range([0, WIDTH]);
 var y = d3.scaleLinear().range([HEIGHT, 0]);
+
+// Create variables to store references to the two lines that will be drawn on the chart
 var line, line2;
 
-
+// Create an SVG element to hold the chart and set its size
 var svg = d3
   .select(".Line-Chart")
   .append("svg")
@@ -32,41 +43,58 @@ var svg = d3
   .append("g")
   .attr("transform", "translate(" + MARGIN.left + "," + MARGIN.top + ")");
 
+var sec = d3
+.select(".Line-Chart")
+ .append("svg")
+ .attr("width", SECONDWIDTH - SECOND_MARGIN.left - SECOND_MARGIN.right)
+ .attr("height", SECONDHEIGHT - SECOND_MARGIN.top - SECOND_MARGIN.bottom)
+ .append("g")
+ .attr("transform", "translate(" - SECOND_MARGIN.left - "," + SECOND_MARGIN.top - ")");
 
+
+
+// Add a header element to the chart
 d3.select(".Line-Chart")
   .append("h1")
-  .text("Select Which Year to focus On")
+  .text("Select Which Year to focus On.")
   .classed("Header", true);
 
-
-var mini = d3
+// Create a second SVG element to hold the brush selector and set its size
+var sec = d3
   .select(".Line-Chart")
   .append("svg")
-  .attr("width", MINIWIDTH + MARGIN.left + MARGIN.right)
-  .attr("height", MINIHEIGHT + MARGIN.top + MARGIN.bottom)
+  .attr("width", SECONDWIDTH + MARGIN.left + MARGIN.right)
+  .attr("height", SECONDHEIGHT + MARGIN.top + MARGIN.bottom)
   .append("g")
   .attr("transform", "translate(" + MARGIN.left + "," + MARGIN.top + ")");
 
-var miniX = d3.scaleTime().range([0, MINIWIDTH]);
-var miniY = d3.scaleLinear().range([MINIHEIGHT, 0]);
+// Create scales for the x and y axes of the brush selector
+var secX = d3.scaleTime().range([0, SECONDWIDTH]);
+var secY = d3.scaleLinear().range([SECONDHEIGHT, 0]);
 
+// Define a function to create the line chart for the selected country
 const MakeLineChart = (Country, arr, svg) => {
+  // Wait for the CSV data to be loaded before continuing
   csv.then((value) => {
+    // Filter the data to only include the selected country
     for (var i = 0; i < value.length; i++) {
       if (value[i].Country === Country) {
         arr.push(value[i]);
       }
     }
 
+    // Convert the year and population data to the correct data types
     arr.forEach(function (d) {
       d.Year = new Date(d.Year);
       d.Population = +d.Population;
     });
 
+    // Sort the data by year in descending order
     arr.sort(function (a, b) {
       return new Date(b.Year) - new Date(a.Year);
     });
 
+    // Set the domains for the x and y scales based on the data
     x.domain(
       d3.extent(arr, function (d) {
         return d.Year;
@@ -115,8 +143,9 @@ const MakeLineChart = (Country, arr, svg) => {
       .call((g) =>
         g
           .selectAll(".tick:not(:first-of-type) line")
+          .attr("stroke-dasharray", "5.0")
           .attr("stroke-opacity", 1)
-          .attr("stroke-dasharray", "3.0")
+          
       )
       .call((g) =>
         g.selectAll(".tick text").attr("x", -70).attr("color", "black")
@@ -136,7 +165,7 @@ const MakeTheSelector = (Country) => {
       .brushX()
       .extent([
         [0, MARGIN.top],
-        [MINIWIDTH, MINIHEIGHT - MARGIN.bottom],
+        [SECONDWIDTH, SECONDHEIGHT - MARGIN.bottom],
       ]).on("end", brushed);
 
     Increase.forEach(function (d) {
@@ -144,38 +173,35 @@ const MakeTheSelector = (Country) => {
       d.Population = +d.Population;
     });
 
-
     Increase.sort(function (a, b) {
       return new Date(b.Year) - new Date(a.Year);
     });
 
 
-    miniX
+    secX
       .domain(
         d3.extent(Increase, function (d) {
           return d.Year;
         })
-      )
-      .range([0, MINIWIDTH]);
-    miniY
+      ).range([0, SECONDWIDTH]);
+    secY
       .domain([
         0,
         d3.max(Increase, function (d) {
           return d.Population;
         }),
-      ])
-      .range([MINIHEIGHT - MARGIN.bottom, MARGIN.top]);
+      ]).range([SECONDHEIGHT - MARGIN.bottom, MARGIN.top]);
 
     var LineValue = d3
       .line()
       .x(function (d) {
-        return miniX(d.Year);
+        return secX(d.Year);
       })
       .y(function (d) {
-        return miniY(d.Population);
+        return secY(d.Population);
       });
 
-    line2 = mini
+    line2 = sec
       .append("g")
       .attr("clip-path", "url(#clip)")
       .append("path")
@@ -186,7 +212,7 @@ const MakeTheSelector = (Country) => {
 
 
     line2.append("g").attr("class", "brush").call(brush);
-    mini.append("g").attr("class", "brush").call(brush);
+    sec.append("g").attr("class", "brush").call(brush);
 
     function brushed(event) {
       const selection = event.selection;
@@ -198,21 +224,20 @@ const MakeTheSelector = (Country) => {
       } else {
         x.domain([x.invert(selection[0]), x.invert(selection[1])]);
  
-        mini.select(".brush").call(brush.move, null);
+        sec.select(".brush").call(brush.move, null);
       }
 
       svg
         .selectAll("#xAxis")
         .transition()
-        .duration(1000)
+        .duration(800)
         .call(d3.axisBottom(x));
 
       line
         .transition()
-        .duration(1000)
+        .duration(800)
         .attr(
-          "d",
-          d3
+          "d",d3
             .line()
             .x(function (d) {
               return x(d.Year);
@@ -223,24 +248,25 @@ const MakeTheSelector = (Country) => {
         );
     }
 
-    mini
+    sec
       .append("g")
-      .attr("transform", `translate(0,${MINIHEIGHT - MARGIN.bottom})`)
-      .call(d3.axisBottom(miniX).tickFormat(d3.timeFormat("%b %y")).ticks(12))
-      .attr("id", "miniXAxis")
+      .attr("transform", `translate(0,${SECONDHEIGHT - MARGIN.bottom})`)
+      .call(d3.axisBottom(secX).tickFormat(d3.timeFormat("%b %y")).ticks(10))
+      .attr("id", "secXAxis")
       .attr("class", "axisBlack")
       .call((g) => g.selectAll(".tick text"));
 
-    mini
+    sec
       .append("g")
-      .call(d3.axisRight(miniY).tickSize(MINIWIDTH))
-      .attr("id", "miniYAxis")
+      .call(d3.axisRight(secY).tickSize(SECONDWIDTH))
+      .attr("id", "secYAxis")
       .call((g) => g.select(".domain").remove())
       .call((g) =>
         g
           .selectAll(".tick:not(:first-of-type) line")
+          .attr("stroke-dasharray", "5.0")
           .attr("stroke-opacity", 1)
-          .attr("stroke-dasharray", "3.0")
+          
       )
       .call((g) =>
         g.selectAll(".tick text").attr("x", -70).attr("color", "black")
@@ -279,4 +305,3 @@ const MakeTheSelector = (Country) => {
 // create line chart and navigator
 MakeLineChart("Asia (UN)", Increase, svg);
 MakeTheSelector("Asia (UN)");
-

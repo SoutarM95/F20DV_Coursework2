@@ -3,14 +3,12 @@
     font-family: 'Mukta', sans-serif;
 }
 
-
-
 .axisBlack line {
-    stroke-opacity: 0.5;
+    stroke-opacity: 1;
 }
 
 .axisBlack path {
-    stroke-opacity: 0.5;
+    stroke-opacity: 1;
 }
 
 .axisBlack text {
@@ -20,18 +18,17 @@
 .lineOrange {
     fill: none;
     stroke: rgb(216, 50, 0);
-    stroke-width: 2px;
+    stroke-width: 1px;
 }
 
 
-#xAxis .tick line {
+.xAxis .tick line {
     visibility: hidden;
 }
 
 
-
 .body {
-    background-color: #f2f2f2;
+    background-color: #b0b98ea6;
     font-family: 'Roboto', sans-serif;
 }
 
@@ -40,21 +37,48 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
+    text-align: center;
 }
 
 .Line-Chart {
-    background-color: white;
+    background-color: rgb(171, 173, 22);
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: left;
+    text-align: center;
 }
 
+.wrapper-container-worldmap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+}
+
+.World-Map {
+    background-color: rgb(171, 173, 22);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+
 .Header {
-    font-size: 32px;
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.Header4 {
+    font-size: 48px;
     margin-bottom: 20px;
 }
 
 .Chart {
+    height: 400px;
+}
+
+.Chart4 {
     height: 400px;
 }
