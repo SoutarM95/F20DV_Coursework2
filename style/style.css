@@ -1,0 +1,42 @@
+/* CSS for responsive layout */
+* {
+	box-sizing: border-box;
+}
+
+.row::after {
+	content: "";
+	clear: both;
+	display: table;
+}
+
+.column {
+	float: left;
+	width: 100%;
+	padding: 15px;
+}
+
+@media only screen and (min-width: 600px) {
+	.column {
+		width: 50%;
+	}
+}
+
+@media only screen and (min-width: 900px) {
+	.column {
+		width: 33.33%;
+	}
+}
+
+/* CSS for chart divs */
+.chart {
+	height: 300px;
+	border: 1px solid black;
+	margin-bottom: 30px;
+	text-align: center;
+}
+
+/* CSS for chart titles */
+.chart-title {
+	font-size: 1.5em;
+	margin-bottom: 10px;
+}
