@@ -15,7 +15,7 @@ const MARGIN = {
 
 // initialise csv
 const csv = d3.csv(
-  "https://raw.githubusercontent.com/SoutarM95/F20DV_Coursework2/main/data/population-and-demography.csv?token=GHSAT0AAAAAAB55H2DWQGQTUK47SOI5EBFOZBWWNZA");
+  "https://raw.githubusercontent.com/SoutarM95/F20DV_Coursework2/main/data/population-and-demography.csv?token=GHSAT0AAAAAAB55H2DXBCVPCC5H546WNXOAZBWW57A");
 
 // temp storage array
 var pops = [];
