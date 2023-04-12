@@ -1,23 +1,23 @@
 // declare line charts dimensions
-const WIDTH = 1000;
+const WIDTH = 800;
 const HEIGHT = 300;
 const MINIWIDTH = 800;
 const MINIHEIGHT = 300;
 
 // declare margin values
 const MARGIN = {
-  top: 30,
-  right: 30,
-  bottom: 30,
-  left: 30,
+  top: 10,
+  right: 10,
+  bottom: 10,
+  left: 10,
 };
 
 // initialise csv
 const csv = d3.csv(
-  "https://raw.githubusercontent.com/SoutarM95/F20DV_Coursework2/main/data/population-and-demography-FullData.csv?token=GHSAT0AAAAAAB55H2DX7LYL2J5UWX3CN3H6ZBWZI4A");
+  "https://raw.githubusercontent.com/SoutarM95/F20DV_Coursework2/main/data/population-and-demography-FullData.csv?token=GHSAT0AAAAAAB55H2DWHQ7MGHFIVETUTXLUZBW2K3A");
 
 // temp storage array
-var pops = [];
+var Increase = [];
 
 // set the ranges
 var x = d3.scaleTime().range([0, WIDTH]);
@@ -36,7 +36,7 @@ var svg = d3
 // add label text for line chart
 d3.select(".Line-Chart")
   .append("h1")
-  .text("Graph Navigator")
+  .text("Select Which Year to focus On")
   .classed("Header", true);
 
 // append navigator chart to html
@@ -54,7 +54,7 @@ var miniY = d3.scaleLinear().range([MINIHEIGHT, 0]);
 
 // create a linechart given a country, data and an svg element
 
-const CREATELINECHART = (Country, arr, svg) => {
+const MakeLineChart = (Country, arr, svg) => {
   csv.then((value) => {
     // load csv values into a preprocessing array
     for (var i = 0; i < value.length; i++) {
@@ -105,7 +105,7 @@ const CREATELINECHART = (Country, arr, svg) => {
       .data([arr])
       .attr("class", "line")
       .attr("d", valueLine)
-      .attr("class", "lineBlue");
+      .attr("class", "lineOrange");
 
     // add the x axis
     svg
@@ -113,7 +113,7 @@ const CREATELINECHART = (Country, arr, svg) => {
       .attr("transform", `translate(0,${HEIGHT - MARGIN.bottom})`)
       .call(d3.axisBottom(x).tickFormat(d3.timeFormat("%Y")).ticks(12))
       .attr("id", "xAxis")
-      .attr("class", "axisWhite")
+      .attr("class", "axisBlack")
       .call((g) => g.selectAll(".tick text"));
 
     // add the y axis
@@ -130,7 +130,7 @@ const CREATELINECHART = (Country, arr, svg) => {
           .attr("stroke-dasharray", "2,2")
       )
       .call((g) =>
-        g.selectAll(".tick text").attr("x", -70).attr("color", "white")
+        g.selectAll(".tick text").attr("x", -70).attr("color", "black")
       );
   });
 };
@@ -187,7 +187,7 @@ const UPDATELINECHART = (selectedGroup, arr, svg) => {
       .duration(1000)
       .ease(d3.easeCubicInOut)
       .call(d3.axisBottom(x).tickFormat(d3.timeFormat("%Y")).ticks())
-      .attr("class", "axisWhite")
+      .attr("class", "axisBlack")
       .call((g) => g.selectAll(".tick text"));
 
     // update y axis
@@ -205,7 +205,7 @@ const UPDATELINECHART = (selectedGroup, arr, svg) => {
           .attr("stroke-dasharray", "2,2")
       )
       .call((g) =>
-        g.selectAll(".tick text").attr("x", -70).attr("color", "white")
+        g.selectAll(".tick text").attr("x", -70).attr("color", "black")
       );
 
     // update line's path
@@ -226,7 +226,7 @@ const UPDATELINECHART = (selectedGroup, arr, svg) => {
             return y(d.Population);
           })
       )
-      .attr("stroke", "blue");
+      .attr("stroke", "orange");
   });
 };
 
@@ -236,7 +236,7 @@ const CREATEINDICATOR = (Country) => {
     // load csv values into a preprocessing array
     for (var i = 0; i < value.length; i++) {
       if (value[i].Country === Country) {
-        pops.push(value[i]);
+        Increase.push(value[i]);
       }
     }
 
@@ -250,13 +250,13 @@ const CREATEINDICATOR = (Country) => {
       .on("end", brushed);
 
     // format the data
-    pops.forEach(function (d) {
+    Increase.forEach(function (d) {
       d.Year = new Date(d.Year);
       d.Population = +d.Population;
     });
 
     // sort data by years
-    pops.sort(function (a, b) {
+    Increase.sort(function (a, b) {
       // turn strings into years
       return new Date(b.Year) - new Date(a.Year);
     });
@@ -264,7 +264,7 @@ const CREATEINDICATOR = (Country) => {
     // calc the range of the data
     miniX
       .domain(
-        d3.extent(pops, function (d) {
+        d3.extent(Increase, function (d) {
           return d.Year;
         })
       )
@@ -272,7 +272,7 @@ const CREATEINDICATOR = (Country) => {
     miniY
       .domain([
         0,
-        d3.max(pops, function (d) {
+        d3.max(Increase, function (d) {
           return d.Population;
         }),
       ])
@@ -293,10 +293,10 @@ const CREATEINDICATOR = (Country) => {
       .append("g")
       .attr("clip-path", "url(#clip)")
       .append("path")
-      .data([pops])
+      .data([Increase])
       .attr("class", "line")
       .attr("d", valueLine)
-      .attr("class", "lineBlue");
+      .attr("class", "lineOrange");
 
     // bind brushing method to line and chart itself
     line2.append("g").attr("class", "brush").call(brush);
@@ -307,7 +307,7 @@ const CREATEINDICATOR = (Country) => {
       const selection = event.selection;
       // If no selection, back to initial coordinate. Otherwise, update X axis domain
       if (!selection) {
-        d3.extent(pops, function (d) {
+        d3.extent(Increase, function (d) {
           return d.Year;
         });
       } else {
@@ -345,7 +345,7 @@ const CREATEINDICATOR = (Country) => {
       .attr("transform", `translate(0,${MINIHEIGHT - MARGIN.bottom})`)
       .call(d3.axisBottom(miniX).tickFormat(d3.timeFormat("%b %y")).ticks(12))
       .attr("id", "miniXAxis")
-      .attr("class", "axisWhite")
+      .attr("class", "axisBlack")
       .call((g) => g.selectAll(".tick text"));
 
     // add the y axis
@@ -361,7 +361,7 @@ const CREATEINDICATOR = (Country) => {
           .attr("stroke-dasharray", "2,2")
       )
       .call((g) =>
-        g.selectAll(".tick text").attr("x", -70).attr("color", "white")
+        g.selectAll(".tick text").attr("x", -70).attr("color", "black")
       );
   });
 
@@ -371,7 +371,7 @@ const CREATEINDICATOR = (Country) => {
     .text("reset")
     .on("click", function (d) {
       x.domain(
-        d3.extent(pops, function (d) {
+        d3.extent(Increase, function (d) {
           return d.Year;
         })
       );
@@ -396,27 +396,27 @@ const CREATEINDICATOR = (Country) => {
 // method which updates navigator chart if new country selected
 const UPDATEINDICATOR = (Country) => {
   csv.then((value) => {
-    pops = [];
+    Increase = [];
 
     for (var i = 0; i < value.length; i++) {
       if (value[i].Country === Country) {
-        pops.push(value[i]);
+        Increase.push(value[i]);
       }
     }
 
-    if (pops.length == 0) {
-      pops.push({ year: new Date(), Population: 0 });
+    if (Increase.length == 0) {
+      Increase.push({ Year: new Date(), Population: 0 });
     }
 
     // TODO: Refactor
     // format the data
-    pops.forEach(function (d) {
+    Increase.forEach(function (d) {
       d.Year = new Date(d.Year);
       d.Population = +d.Population;
     });
 
     // sort data by years
-    pops.sort(function (a, b) {
+    Increase.sort(function (a, b) {
       // turn strings into years
       return new Date(b.Year) - new Date(a.Year);
     });
@@ -424,7 +424,7 @@ const UPDATEINDICATOR = (Country) => {
     // calc the range of the data
     miniX
       .domain(
-        d3.extent(pops, function (d) {
+        d3.extent(Increase, function (d) {
           return d.Year;
         })
       )
@@ -432,7 +432,7 @@ const UPDATEINDICATOR = (Country) => {
     miniY
       .domain([
         0,
-        d3.max(pops, function (d) {
+        d3.max(Increase, function (d) {
           return d.Population;
         }),
       ])
@@ -445,7 +445,7 @@ const UPDATEINDICATOR = (Country) => {
       .duration(1000)
       .ease(d3.easeCubicInOut)
       .call(d3.axisBottom(miniX).tickFormat(d3.timeFormat("%y")).ticks())
-      .attr("class", "axisWhite")
+      .attr("class", "axisBlack")
       .call((g) => g.selectAll(".tick text"));
 
     // update navigator y axis
@@ -463,12 +463,12 @@ const UPDATEINDICATOR = (Country) => {
           .attr("stroke-dasharray", "2,2")
       )
       .call((g) =>
-        g.selectAll(".tick text").attr("x", -70).attr("color", "white")
+        g.selectAll(".tick text").attr("x", -70).attr("color", "black")
       );
 
     // give new data to update line
     line2
-      .data([pops])
+      .data([Increase])
       .transition()
       .duration(1000)
       .ease(d3.easeCubicInOut)
@@ -483,11 +483,11 @@ const UPDATEINDICATOR = (Country) => {
             return miniY(d.Population);
           })
       )
-      .attr("stroke", "blue");
+      .attr("stroke", "orange");
   });
 };
 
 // create line chart and navigator
-CREATELINECHART("Spain", pops, svg);
+MakeLineChart("Spain", Increase, svg);
 CREATEINDICATOR("Spain");
 
