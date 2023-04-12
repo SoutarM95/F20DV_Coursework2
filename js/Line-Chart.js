@@ -15,7 +15,7 @@ const MARGIN = {
 
 // initialise csv
 const csv = d3.csv(
-  "https://raw.githubusercontent.com/SoutarM95/F20DV_Coursework2/main/data/population-and-demography.csv?token=GHSAT0AAAAAAB55H2DXBCVPCC5H546WNXOAZBWW57A");
+  "https://raw.githubusercontent.com/SoutarM95/F20DV_Coursework2/main/data/population-and-demography-PartialData.csv?token=GHSAT0AAAAAAB55H2DX7ONXUPYQBBM65E5MZBWXXKA");
 
 // temp storage array
 var pops = [];
@@ -55,36 +55,36 @@ var miniY = d3.scaleLinear().range([MINIHEIGHT, 0]);
 
 // create a linechart given a country, data and an svg element
 
-const CREATELINECHART = (country, arr, svg) => {
+const CREATELINECHART = (Country, arr, svg) => {
   csv.then((value) => {
     // load csv values into a preprocessing array
     for (var i = 0; i < value.length; i++) {
-      if (value[i].country === country) {
+      if (value[i].Country === Country) {
         arr.push(value[i]);
       }
     }
 
     // format the data
     arr.forEach(function (d) {
-      d.year = new Date(d.year);
-      d.count = +d.count;
+      d.Year = new Date(d.Year);
+      d.Population = +d.Population;
     });
 
     arr.sort(function (a, b) {
       // turn strings into years
-      return new Date(b.year) - new Date(a.year);
+      return new Date(b.Year) - new Date(a.Year);
     });
 
     // calculate the range of the data
     x.domain(
       d3.extent(arr, function (d) {
-        return d.year;
+        return d.Year;
       })
     ).range([0, WIDTH]);
     y.domain([
       0,
       d3.max(arr, function (d) {
-        return d.count;
+        return d.Population;
       }),
     ]).range([HEIGHT - MARGIN.bottom, MARGIN.top]);
 
@@ -92,10 +92,10 @@ const CREATELINECHART = (country, arr, svg) => {
     var valueLine = d3
       .line()
       .x(function (d) {
-        return x(d.year);
+        return x(d.Year);
       })
       .y(function (d) {
-        return y(d.count);
+        return y(d.Count);
       });
 
     // add the case line path.
@@ -146,38 +146,38 @@ const UPDATELINECHART = (selectedGroup, arr, svg) => {
 
     // if selected country matches any in storage, add it to temp array
     for (var i = 0; i < value.length; i++) {
-      if (value[i].country === selectedGroup) {
+      if (value[i].Country === selectedGroup) {
         arr.push(value[i]);
       }
     }
 
     // else create empty data to avoid errors
     if (arr.length == 0) {
-      arr.push({ year: new Date(), count: 0 });
+      arr.push({ year: new Date(), Population: 0 });
     }
 
     // format data for parsing
     arr.forEach(function (d) {
-      d.year = new Date(d.year);
-      d.count = +d.count;
+      d.year = new Date(d.Year);
+      d.Population = +d.Population;
     });
 
     // sort data by year
     arr.sort(function (a, b) {
       // turn strings into years
-      return new Date(b.year) - new Date(a.year);
+      return new Date(b.Year) - new Date(a.Year);
     });
 
     // calc the range of the data
     x.domain(
       d3.extent(arr, function (d) {
-        return d.year;
+        return d.Year;
       })
     ).range([0, WIDTH]);
     y.domain([
       0,
       d3.max(arr, function (d) {
-        return d.count;
+        return d.Population;
       }),
     ]).range([HEIGHT - MARGIN.bottom, MARGIN.top]);
 
@@ -221,10 +221,10 @@ const UPDATELINECHART = (selectedGroup, arr, svg) => {
         d3
           .line()
           .x(function (d) {
-            return x(d.year);
+            return x(d.Year);
           })
           .y(function (d) {
-            return y(d.count);
+            return y(d.Population);
           })
       )
       .attr("stroke", "blue");
@@ -232,11 +232,11 @@ const UPDATELINECHART = (selectedGroup, arr, svg) => {
 };
 
 // create navigator chart given a country
-const CREATEINDICATOR = (country) => {
+const CREATEINDICATOR = (Country) => {
   csv.then((value) => {
     // load csv values into a preprocessing array
     for (var i = 0; i < value.length; i++) {
-      if (value[i].country === country) {
+      if (value[i].Country === Country) {
         pops.push(value[i]);
       }
     }
@@ -252,21 +252,21 @@ const CREATEINDICATOR = (country) => {
 
     // format the data
     pops.forEach(function (d) {
-      d.year = new Date(d.year);
-      d.count = +d.count;
+      d.Year = new Date(d.Year);
+      d.Pop = +d.Population;
     });
 
     // sort data by years
     pops.sort(function (a, b) {
       // turn strings into years
-      return new Date(b.year) - new Date(a.year);
+      return new Date(b.Year) - new Date(a.Year);
     });
 
     // calc the range of the data
     miniX
       .domain(
         d3.extent(pops, function (d) {
-          return d.year;
+          return d.Year;
         })
       )
       .range([0, MINIWIDTH]);
@@ -274,7 +274,7 @@ const CREATEINDICATOR = (country) => {
       .domain([
         0,
         d3.max(pops, function (d) {
-          return d.count;
+          return d.Population;
         }),
       ])
       .range([MINIHEIGHT - MARGIN.bottom, MARGIN.top]);
@@ -283,10 +283,10 @@ const CREATEINDICATOR = (country) => {
     var valueLine = d3
       .line()
       .x(function (d) {
-        return miniX(d.year);
+        return miniX(d.Year);
       })
       .y(function (d) {
-        return miniY(d.count);
+        return miniY(d.Population);
       });
 
     // add the case line path.
@@ -309,7 +309,7 @@ const CREATEINDICATOR = (country) => {
       // If no selection, back to initial coordinate. Otherwise, update X axis domain
       if (!selection) {
         d3.extent(pops, function (d) {
-          return d.year;
+          return d.Year;
         });
       } else {
         x.domain([x.invert(selection[0]), x.invert(selection[1])]);
@@ -332,10 +332,10 @@ const CREATEINDICATOR = (country) => {
           d3
             .line()
             .x(function (d) {
-              return x(d.year);
+              return x(d.Year);
             })
             .y(function (d) {
-              return y(d.count);
+              return y(d.Population);
             })
         );
     }
@@ -374,7 +374,7 @@ const CREATEINDICATOR = (country) => {
     .on("click", function (d) {
       x.domain(
         d3.extent(pops, function (d) {
-          return d.year;
+          return d.Year;
         })
       );
       d3.select("#xAxis").transition().duration(1000).call(d3.axisBottom(x));
@@ -386,48 +386,48 @@ const CREATEINDICATOR = (country) => {
           d3
             .line()
             .x(function (d) {
-              return x(d.year);
+              return x(d.Year);
             })
             .y(function (d) {
-              return y(d.count);
+              return y(d.Population);
             })
         );
     });
 };
 
 // method which updates navigator chart if new country selected
-const UPDATEINDICATOR = (country) => {
+const UPDATEINDICATOR = (Country) => {
   csv.then((value) => {
     pops = [];
 
     for (var i = 0; i < value.length; i++) {
-      if (value[i].country === country) {
+      if (value[i].Country === Country) {
         pops.push(value[i]);
       }
     }
 
     if (pops.length == 0) {
-      pops.push({ year: new Date(), count: 0 });
+      pops.push({ year: new Date(), Population: 0 });
     }
 
     // TODO: Refactor
     // format the data
     pops.forEach(function (d) {
-      d.year = new Date(d.year);
-      d.count = +d.count;
+      d.year = new Date(d.Year);
+      d.Population = +d.Population;
     });
 
     // sort data by years
     pops.sort(function (a, b) {
       // turn strings into years
-      return new Date(b.year) - new Date(a.year);
+      return new Date(b.Year) - new Date(a.Year);
     });
 
     // calc the range of the data
     miniX
       .domain(
         d3.extent(pops, function (d) {
-          return d.year;
+          return d.Year;
         })
       )
       .range([0, MINIWIDTH]);
@@ -435,7 +435,7 @@ const UPDATEINDICATOR = (country) => {
       .domain([
         0,
         d3.max(pops, function (d) {
-          return d.count;
+          return d.Population;
         }),
       ])
       .range([MINIHEIGHT - MARGIN.bottom, MARGIN.top]);
@@ -479,10 +479,10 @@ const UPDATEINDICATOR = (country) => {
         d3
           .line()
           .x(function (d) {
-            return miniX(d.year);
+            return miniX(d.Year);
           })
           .y(function (d) {
-            return miniY(d.count);
+            return miniY(d.Population);
           })
       )
       .attr("stroke", "blue");
