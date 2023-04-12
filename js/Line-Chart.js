@@ -1,21 +1,20 @@
-
 // declare line charts dimensions
-const WIDTH = 600;
-const HEIGHT = 400;
-const MINIWIDTH = 600;
-const MINIHEIGHT = 240;
+const WIDTH = 1000;
+const HEIGHT = 300;
+const MINIWIDTH = 800;
+const MINIHEIGHT = 300;
 
 // declare margin values
 const MARGIN = {
-  top: 20,
+  top: 30,
   right: 30,
   bottom: 30,
-  left: 80,
+  left: 30,
 };
 
 // initialise csv
 const csv = d3.csv(
-  "https://raw.githubusercontent.com/SoutarM95/F20DV_Coursework2/main/data/population-and-demography-PartialData.csv?token=GHSAT0AAAAAAB55H2DX7ONXUPYQBBM65E5MZBWXXKA");
+  "https://raw.githubusercontent.com/SoutarM95/F20DV_Coursework2/main/data/population-and-demography-FullData.csv?token=GHSAT0AAAAAAB55H2DX7LYL2J5UWX3CN3H6ZBWZI4A");
 
 // temp storage array
 var pops = [];
@@ -95,7 +94,7 @@ const CREATELINECHART = (Country, arr, svg) => {
         return x(d.Year);
       })
       .y(function (d) {
-        return y(d.Count);
+        return y(d.Population);
       });
 
     // add the case line path.
@@ -153,12 +152,12 @@ const UPDATELINECHART = (selectedGroup, arr, svg) => {
 
     // else create empty data to avoid errors
     if (arr.length == 0) {
-      arr.push({ year: new Date(), Population: 0 });
+      arr.push({ Year: new Date(), Population: 0 });
     }
 
     // format data for parsing
     arr.forEach(function (d) {
-      d.year = new Date(d.Year);
+      d.Year = new Date(d.Year);
       d.Population = +d.Population;
     });
 
@@ -253,7 +252,7 @@ const CREATEINDICATOR = (Country) => {
     // format the data
     pops.forEach(function (d) {
       d.Year = new Date(d.Year);
-      d.Pop = +d.Population;
+      d.Population = +d.Population;
     });
 
     // sort data by years
@@ -370,7 +369,6 @@ const CREATEINDICATOR = (Country) => {
   d3.select(".Line-Chart")
     .append("button")
     .text("reset")
-    .classed("ml-3 bg-gray-900 text-white p-2 w-20", true)
     .on("click", function (d) {
       x.domain(
         d3.extent(pops, function (d) {
@@ -413,7 +411,7 @@ const UPDATEINDICATOR = (Country) => {
     // TODO: Refactor
     // format the data
     pops.forEach(function (d) {
-      d.year = new Date(d.Year);
+      d.Year = new Date(d.Year);
       d.Population = +d.Population;
     });
 
@@ -492,3 +490,4 @@ const UPDATEINDICATOR = (Country) => {
 // create line chart and navigator
 CREATELINECHART("Spain", pops, svg);
 CREATEINDICATOR("Spain");
+
