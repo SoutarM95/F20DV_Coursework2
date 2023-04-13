@@ -3,30 +3,6 @@
     font-family: 'Mukta', sans-serif;
 }
 
-.axisBlack line {
-    stroke-opacity: 1;
-}
-
-.axisBlack path {
-    stroke-opacity: 1;
-}
-
-.axisBlack text {
-    fill: rgb(0, 0, 0);
-}
-
-.lineOrange {
-    fill: none;
-    stroke: rgb(216, 50, 0);
-    stroke-width: 1px;
-}
-
-
-.xAxis .tick line {
-    visibility: hidden;
-}
-
-
 .body {
     background-color: #b0b98ea6;
     font-family: 'Roboto', sans-serif;
@@ -36,17 +12,52 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: auto; /* Set the height to 70% of the viewport height */
     text-align: center;
-}
+    font-size: 72px;
+  }
 
 .Line-Chart {
     background-color: rgb(27, 163, 197);
-    padding: 30px;
-    border-radius: 20px;
+    padding: 25px;
+    border-radius: 100px;
+    border: 2px solid rgb(216, 50, 0);
     box-shadow: 0px 4px 50px rgba(0, 0, 0, 0.1);
     text-align: center;
+    font-size: 72px;
 }
+
+.Header {
+    font-size: 48px;
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+.Chart {
+    height: 400px;
+}
+
+.axisBlack line {
+    stroke-opacity: 3;
+}
+
+.axisBlack path {
+    stroke-opacity: 3;
+}
+
+.axisBlack text {
+    fill: rgb(0, 0, 0);
+}
+
+.lineOrange {
+    fill: none;
+    stroke: rgb(216, 50, 0);
+    stroke-width: 3px;
+}
+
+
+
+
 
 .wrapper-container-worldmap {
     display: flex;
@@ -58,27 +69,16 @@
 
 .World-Map {
     background-color: rgb(171, 173, 22);
-    padding: 30px;
+    padding: 25px;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
-
-.Header {
-    font-size: 48px;
-    margin-bottom: 20px;
+.Chart4 {
+    height: 400px;
 }
-
 .Header4 {
     font-size: 48px;
     margin-bottom: 20px;
-}
-
-.Chart {
-    height: 400px;
-}
-
-.Chart4 {
-    height: 400px;
 }

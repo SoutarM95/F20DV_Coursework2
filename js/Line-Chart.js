@@ -148,7 +148,7 @@ const MakeLineChart = (Country, arr, svg) => {
           
       )
       .call((g) =>
-        g.selectAll(".tick text").attr("x", -70).attr("color", "black")
+        g.selectAll(".tick text").attr("x", -69).attr("color", "black")
       );
   });
 };
@@ -291,7 +291,7 @@ function brushed(event) {
           
       )
       .call((g) =>
-        g.selectAll(".tick text").attr("x", -70).attr("color", "black")
+        g.selectAll(".tick text").attr("x", -69).attr("color", "black")
       );
   });
 

@@ -3,7 +3,7 @@ const WorldMapwidth = 960;
 const WorldMapheight = 600;
 
 // Create the SVG container
-const svg = d3.select('body')
+const svg = d3.select(".World-Map")
   .append('svg')
   .attr('width', WorldMapwidth)
   .attr('height', WorldMapheight);
@@ -51,7 +51,7 @@ d3.json('https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/w
           .range(d3.schemeBlues[6]);
 
         // Define a tooltip for the map
-        const tooltip = d3.select('body')
+        const tooltip = d3.select(".World-Map")
           .append('div')
           .attr('class', 'tooltip');
       });
