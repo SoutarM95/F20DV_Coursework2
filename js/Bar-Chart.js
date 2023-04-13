@@ -6,7 +6,7 @@ const innerWidth = Barwidth - margin.left - margin.right;
 const innerHeight = Barheight - margin.top - margin.bottom;
 
 // Create the SVG element and append it to the DOM
-const svg = d3.select("body")
+const svg = d3.select(".Bar-Chart")
   .append("svg")
   .attr("width", Barwidth)
   .attr("height", Barheight);

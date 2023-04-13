@@ -12,7 +12,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: auto; /* Set the height to 70% of the viewport height */
+    height: auto;
     text-align: center;
     font-size: 72px;
   }
@@ -54,10 +54,6 @@
     stroke: rgb(216, 50, 0);
     stroke-width: 3px;
 }
-
-
-
-
 
 .wrapper-container-worldmap {
     display: flex;

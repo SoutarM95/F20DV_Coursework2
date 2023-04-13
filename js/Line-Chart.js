@@ -32,7 +32,7 @@ var x = d3.scaleTime().range([0, WIDTH]);
 var y = d3.scaleLinear().range([HEIGHT, 0]);
 
 // Create variables to store references to the two lines that will be drawn on the chart
-var line, line2;
+var line, secondline;
 
 // Create an SVG element to hold the chart and set its size
 var svg = d3
@@ -152,7 +152,6 @@ const MakeLineChart = (Country, arr, svg) => {
   });
 };
 
-
 const MakeTheSelector = (Country) => {
   // Call csv.then() method which returns a promise that resolves when the CSV file has been loaded and parsed
   csv.then((value) => {
@@ -170,7 +169,6 @@ const MakeTheSelector = (Country) => {
         [0, MARGIN.top],
         [SECONDWIDTH, SECONDHEIGHT - MARGIN.bottom],
       ]).on("end", brushed);
-
 
     // Convert the Year property of each data object in the Increase array into a Date object and cast the Population property as a number
     Increase.forEach(function (d) {
@@ -212,7 +210,7 @@ const MakeTheSelector = (Country) => {
       // Append a path element to the group element and bind the data in the Increase array to it
       // Set the class of the path element to "line" and "lineOrange"
       // Set the "d" attribute of the path element to the result of LineValue(Increase)
-      line2 = sec
+      secondline = sec
       .append("g")
       .attr("clip-path", "url(#clip)")
       .append("path")
@@ -221,15 +219,12 @@ const MakeTheSelector = (Country) => {
       .attr("class", "lineOrange")
       .attr("d", LineValue);
       
-
-
      // Append a brush element to the line chart and the navigator chart
      sec.append("g").attr("class", "brush").call(brush);
-     line2.append("g").attr("class", "brush").call(brush);
+     secondline.append("g").attr("class", "brush").call(brush);
     
 
-
-    // Define a function called brushed that takes an event object as a parameter
+ // Define a function called brushed that takes an event object as a parameter
  // This function is called when the user interacts with the brush selector on the line chart.
 function brushed(event) {
   // Get the current selection of the brush
@@ -275,14 +270,12 @@ function brushed(event) {
       .append("g")
       .attr("transform", `translate(0,${SECONDHEIGHT - MARGIN.bottom})`)
       .call(d3.axisBottom(secX).tickFormat(d3.timeFormat("%b %y")).ticks(10))
-      .attr("id", "secXAxis")
       .attr("class", "axisBlack")
       .call((g) => g.selectAll(".tick text"));
 
     sec
       .append("g")
       .call(d3.axisRight(secY).tickSize(SECONDWIDTH))
-      .attr("id", "secYAxis")
       .call((g) => g.select(".domain").remove())
       .call((g) =>
         g
@@ -299,7 +292,7 @@ function brushed(event) {
   // add a reset button which resets domains of charts
   d3.select(".Line-Chart")
     .append("button")
-    .text("reset")
+    .text("RESET THE GRAPH")
     .on("click", function (d) {
       x.domain(
         d3.extent(Increase, function (d) {
