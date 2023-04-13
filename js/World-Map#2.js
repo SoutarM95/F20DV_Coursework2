@@ -1,3 +1,5 @@
+//DID NOT IMPLEMENT FULLY
+
 // Define some constants for the size of the chart and margins
 const MAPWIDTH = 600;
 const MAPHEIGHT = 500;

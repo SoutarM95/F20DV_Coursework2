@@ -1,3 +1,5 @@
+//DID NOT IMPLEMENT FULLY
+
 // Define the dimensions of the SVG container
 const WorldMapwidth = 960;
 const WorldMapheight = 600;

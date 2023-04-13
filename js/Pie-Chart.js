@@ -1,3 +1,6 @@
+//DID NOT IMPLEMENT FULLY
+
+
 // Set up the width and height of the SVG element
 const Piewidth = 600;
 const Pieheight = 600;

@@ -1,3 +1,8 @@
+//DID NOT IMPLEMENT FULLY
+
+
+
+
 // Define the dimensions of the SVG element
 const Barwidth = 600;
 const Barheight = 400;
