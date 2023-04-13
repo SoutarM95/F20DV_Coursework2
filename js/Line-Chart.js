@@ -318,5 +318,5 @@ function brushed(event) {
 };
 
 // Create line chart
-MakeLineChart("France", Increase, svg);
-MakeTheSelector("France");
+MakeLineChart("Asia (UN)", Increase, svg);
+MakeTheSelector("Asia (UN)");
