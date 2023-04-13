@@ -52,7 +52,6 @@ var sec = d3
  .attr("transform", "translate(" - SECOND_MARGIN.left - "," + SECOND_MARGIN.top - ")");
 
 
-
 // Add a header element to the chart
 d3.select(".Line-Chart")
   .append("h1")
@@ -219,13 +218,15 @@ const MakeTheSelector = (Country) => {
       .append("path")
       .data([Increase])
       .attr("class", "line")
-      .attr("d", LineValue)
-      .attr("class", "lineOrange");
+      .attr("class", "lineOrange")
+      .attr("d", LineValue);
+      
 
 
      // Append a brush element to the line chart and the navigator chart
-    line2.append("g").attr("class", "brush").call(brush);
-    sec.append("g").attr("class", "brush").call(brush);
+     sec.append("g").attr("class", "brush").call(brush);
+     line2.append("g").attr("class", "brush").call(brush);
+    
 
 
     // Define a function called brushed that takes an event object as a parameter
@@ -305,7 +306,7 @@ function brushed(event) {
           return d.Year;
         })
       );
-      d3.select("#xAxis").transition().duration(1000).call(d3.axisBottom(x));
+      d3.select("#xAxis").transition().duration(800).call(d3.axisBottom(x));
       line
         .transition()
         .duration(1000)
@@ -323,7 +324,6 @@ function brushed(event) {
     });
 };
 
-
-// create line chart and navigator
-MakeLineChart("Asia (UN)", Increase, svg);
-MakeTheSelector("Asia (UN)");
+// Create line chart
+MakeLineChart("France", Increase, svg);
+MakeTheSelector("France");

@@ -1,3 +1,4 @@
+// Define some constants for the size of the chart and margins
 const MAPWIDTH = 600;
 const MAPHEIGHT = 500;
 
@@ -8,7 +9,7 @@ const MAP = d3
   .attr("width", MAPWIDTH)
   .attr("height", MAPHEIGHT);
 
-  const LEGENDSVG = d3
+  const MAPSVG = d3
   .select(".World-Map")
   .append("svg")
   .attr("class", ".World-Map")
@@ -19,8 +20,6 @@ const PROJECTION = d3
   .geoMercator()
   .scale(100)
   .translate([MAPWIDTH / 2, MAPHEIGHT / 1.8]);
-
-  
 
 const PATH = d3.geoPath(PROJECTION);
 
@@ -47,7 +46,5 @@ var arr = [];
 function MakeMap(){
     d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson"
     .then((data) => {
-
-        
     }))
 }
